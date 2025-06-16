@@ -1,4 +1,4 @@
-package com.example.HealthCareAppointment.Service;
+package com.example.HealthCareAppointment.Service.Patient;
 
 import java.util.List;
 
