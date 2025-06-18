@@ -33,6 +33,8 @@ public class Patient {
 
     private String address;
 
+    
+
     public Patient(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, String gender, String address) {
         this.address = address;
         this.dateOfBirth = dateOfBirth;
@@ -41,6 +43,8 @@ public class Patient {
         this.gender = gender;
         this.phoneNumber = phoneNumber;
     }
+
+
 
 
 
