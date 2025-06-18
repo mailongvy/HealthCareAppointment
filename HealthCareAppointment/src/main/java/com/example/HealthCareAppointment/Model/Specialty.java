@@ -30,4 +30,10 @@ public class Specialty {
     @OneToMany(mappedBy="specialty", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Doctor> doctors;
 
+    public Specialty(String name, String description) {
+        this.description = description;
+        this.name = name;
+    }
+
+
 }

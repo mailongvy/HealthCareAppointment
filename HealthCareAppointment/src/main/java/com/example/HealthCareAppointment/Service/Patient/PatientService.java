@@ -12,21 +12,24 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PatientService {
+public class PatientService implements IPatientService {
     private final PatientRepository patientRepository;
 
     // get all patients 
+    @Override
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();
     }
 
     // get patient by id
+    @Override
     public Patient getPatientById(Long id) {
         return patientRepository.findById(id)
                                 .orElseThrow(() -> new ResourceNotFoundException("Patient Not Found"));
     }
 
     // add patient 
+    @Override
     public Patient addPatient(Patient patient) {
         
 
@@ -47,6 +50,7 @@ public class PatientService {
     }
 
     //update Patient
+    @Override
     public Patient updatePatient(Patient requestPatient, Long id) {
         return patientRepository.findById(id)
                                 .map(existingPatient -> {
@@ -63,6 +67,7 @@ public class PatientService {
     }
 
     //delete patient by id 
+    @Override
     public void deletePatientById(Long id) {
         patientRepository.findById(id)
                          .ifPresentOrElse(
