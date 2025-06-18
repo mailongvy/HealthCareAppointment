@@ -28,6 +28,8 @@ public class PatientService {
 
     // add patient 
     public Patient addPatient(Patient patient) {
+        
+
         Patient addPatient = createPatient(patient);
         return patientRepository.save(addPatient);
     }
