@@ -27,7 +27,7 @@ public class Specialty {
 
     private String description;
 
-    @OneToMany(mappedBy="specialty", cascade=CascadeType.ALL, orphanRemoval=tru)
+    @OneToMany(mappedBy="specialty", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Doctor> doctors;
 
 }
