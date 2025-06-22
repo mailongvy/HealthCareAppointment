@@ -60,7 +60,14 @@ public class SpecialtyService implements  ISpecialtyService {
     @Override
     public Specialty updateSpecialty(Specialty updateSpecialty, Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return specialtyRepository.findById(id)
+                                  .map(existingSpecialty -> {
+                                    existingSpecialty.setName(updateSpecialty.getName());
+                                    existingSpecialty.setDescription(updateSpecialty.getDescription());
+                                    existingSpecialty.setDoctors(updateSpecialty.getDoctors());
+                                    return specialtyRepository.save(existingSpecialty);
+                                  })
+                                  .orElseThrow(() -> new ResourceNotFoundException("Specialty Not Found"));
     }
 
     @Override
