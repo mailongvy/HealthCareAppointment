@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Patient;
 import com.example.HealthCareAppointment.Response.ApiResponse;
-import com.example.HealthCareAppointment.Service.Patient.PatientService;
+import com.example.HealthCareAppointment.Service.Patient.IPatientService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("${apiPrefix}/patients")
 public class PatientController {
-    private final PatientService patientService;
+    private final IPatientService patientService;
 
     // get all patients
     @GetMapping("/patient/allPatients")
