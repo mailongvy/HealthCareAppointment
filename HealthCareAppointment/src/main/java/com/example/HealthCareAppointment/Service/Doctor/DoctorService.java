@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.HealthCareAppointment.Exception.ResourceAlreadyExistException;
 import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Doctor;
 import com.example.HealthCareAppointment.Model.Specialty;
@@ -32,7 +33,7 @@ public class DoctorService implements IDoctorService {
 
     @Override
     public List<Doctor> getDoctorBySpecialty(Specialty specialty) {
-        if (!doctorRepository.existsBySpecialtyName(specialty.getName())) {
+        if (!specialtyRepository.existsByName(specialty.getName())) {
             throw new ResourceNotFoundException("Specialty Not found");
         }
 
@@ -69,14 +70,34 @@ public class DoctorService implements IDoctorService {
 
     @Override
     public Doctor addDoctor(Doctor addDoctor) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(doctorRepository.existsByEmail(addDoctor.getEmail())) {
+            throw new ResourceAlreadyExistException("Doctor already exists");
+        }
+
+        Specialty specialty = specialtyRepository.findByName(addDoctor.getSpecialty().getName());
+
+        addDoctor.setSpecialty(specialty);
+
+        return doctorRepository.save(createDoctor(addDoctor, specialty));
     }
 
-    public Doctor createDoctor(Docto)
+    public Doctor createDoctor(Doctor addDoctor, Specialty specialty) {
+        return new Doctor(
+            addDoctor.getFullName(),
+            addDoctor.getEmail(),
+            addDoctor.getPhoneNumber(),
+            addDoctor.getDateOfBirth(),
+            specialty
+        );
+    }
 
     @Override
     public void deleteDoctor(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        doctorRepository.findById(id)
+                        .ifPresentOrElse(
+                            doctorRepository::delete,
+                            () -> new ResourceNotFoundException("Doctor Not Found");
+                         );
     }
 
 }

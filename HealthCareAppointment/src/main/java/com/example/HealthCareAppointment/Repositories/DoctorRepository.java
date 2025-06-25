@@ -11,4 +11,5 @@ import com.example.HealthCareAppointment.Model.Doctor;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     public boolean existsBySpecialtyName(String name);
     public List<Doctor> findBySpecialtyName(String name);
+    public boolean existsByEmail(String email);
 }

@@ -36,6 +36,14 @@ public class Doctor {
     @JoinColumn(name="specialty_id", referencedColumnName="id")
     private Specialty specialty;
 
+    public Doctor(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, Specialty specialty) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.specialty = specialty;
+    }
 
+    
 
 }
