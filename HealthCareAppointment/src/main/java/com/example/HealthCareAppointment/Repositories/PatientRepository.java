@@ -7,6 +7,6 @@ import com.example.HealthCareAppointment.Model.Patient;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
-
+    public existsByEmail
 
 }
