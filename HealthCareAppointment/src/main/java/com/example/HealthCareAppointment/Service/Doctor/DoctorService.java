@@ -11,6 +11,7 @@ import com.example.HealthCareAppointment.Model.Specialty;
 import com.example.HealthCareAppointment.Repositories.DoctorRepository;
 import com.example.HealthCareAppointment.Repositories.SpecialtyRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -92,12 +93,14 @@ public class DoctorService implements IDoctorService {
     }
 
     @Override
+    @Transactional
     public void deleteDoctor(Long id) {
         doctorRepository.findById(id)
                         .ifPresentOrElse(
                             doctorRepository::delete,
-                            () -> new ResourceNotFoundException("Doctor Not Found");
+                            () -> { throw new ResourceNotFoundException("Doctor Not Found"); }
                          );
     }
+    
 
 }
