@@ -9,6 +9,7 @@ import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Patient;
 import com.example.HealthCareAppointment.Repositories.PatientRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -73,6 +74,7 @@ public class PatientService implements IPatientService {
 
     //delete patient by id 
     @Override
+    @Transactional
     public void deletePatientById(Long id) {
         patientRepository.findById(id)
                          .ifPresentOrElse(
