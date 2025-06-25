@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.HealthCareAppointment.Exception.ResourceAlreadyExistException;
 import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Patient;
 import com.example.HealthCareAppointment.Repositories.PatientRepository;
@@ -39,8 +40,10 @@ public class PatientService implements IPatientService {
 
     // create patient to add
     public Patient createPatient(Patient addPatient) {
+        if (patientRepository.existsByEmail(addPatient.getEmail())) {
+            throw new ResourceAlreadyExistException("Patient already exists");
+        }
 
-        
         return new Patient(
             addPatient.getFullName(),
             addPatient.getEmail(),
