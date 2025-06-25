@@ -2,6 +2,8 @@ package com.example.HealthCareAppointment.Model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class Specialty {
     private String description;
 
     @OneToMany(mappedBy="specialty", cascade=CascadeType.ALL, orphanRemoval=true)
+    @JsonIgnore
     private List<Doctor> doctors;
 
     public Specialty(String name, String description) {

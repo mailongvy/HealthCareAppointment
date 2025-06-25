@@ -1,6 +1,7 @@
 package com.example.HealthCareAppointment.Service.Doctor;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -74,8 +75,10 @@ public class DoctorService implements IDoctorService {
         if(doctorRepository.existsByEmail(addDoctor.getEmail())) {
             throw new ResourceAlreadyExistException("Doctor already exists");
         }
+        // specialtyRepository.findByName(addDoctor.getSpecialty().getName());
 
-        Specialty specialty = specialtyRepository.findByName(addDoctor.getSpecialty().getName());
+        Specialty specialty = Optional.ofNullable(specialtyRepository.findByName(addDoctor.getSpecialty().getName()))
+                                        .orElseThrow(() -> new ResourceNotFoundException("Specialty not found"));
 
         addDoctor.setSpecialty(specialty);
 
