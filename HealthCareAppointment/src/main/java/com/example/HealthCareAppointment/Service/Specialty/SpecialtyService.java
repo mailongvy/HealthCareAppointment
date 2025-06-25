@@ -20,7 +20,7 @@ public class SpecialtyService implements  ISpecialtyService {
     @Override
     public Specialty addSpecialty(Specialty addSpecialty) {
         // TODO Auto-generated method stub
-        if (!specialtyRepository.existsByName(addSpecialty.getName())) {
+        if (specialtyRepository.existsByName(addSpecialty.getName())) {
             throw new ResourceAlreadyExistException("Specialty already existed");
         }
 
