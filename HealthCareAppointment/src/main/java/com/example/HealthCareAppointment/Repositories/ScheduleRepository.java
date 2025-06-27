@@ -7,5 +7,5 @@ import com.example.HealthCareAppointment.Model.Schedule;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-
+    
 }
