@@ -4,10 +4,12 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,13 +38,17 @@ public class Schedule {
     @JsonFormat(pattern="HH:mm:ss")
     private LocalTime endTime;
 
+    @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 
-    @Column(nullable = false)
-    private boolean isAvailable; // check xem lịch còn trống không
+    // nếu lịch bác sĩ trống sẽ là true
+    // bận là false
+    
+    private boolean isAvailable = true;
 
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="id", referencedColumnName="id")
+    @JoinColumn(name="doctor_id", referencedColumnName="id")
+    @JsonIgnore
     private Doctor doctor; // một bác sĩ có thể có nhiều lịch
 
     public Schedule(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek, boolean isAvailable, Doctor doctor) {
