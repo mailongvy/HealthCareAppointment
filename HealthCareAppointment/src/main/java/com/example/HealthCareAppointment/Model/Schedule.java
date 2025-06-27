@@ -1,0 +1,32 @@
+package com.example.HealthCareAppointment.Model;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+// schedule: lịch làm việc của bác sĩ 
+// tạo lịch làm việc để check có thể tạo cuộc hẹn không
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Schedule {
+    private Long id;
+
+    private LocalTime startTime;
+
+    private LocalTime endTime;
+
+    private DayOfWeek dayOfWeek;
+
+    private boolean isAvailable; // check xem lịch còn trống không
+
+    private Doctor doctor; // một bác sĩ có thể có nhiều lịch
+
+}
