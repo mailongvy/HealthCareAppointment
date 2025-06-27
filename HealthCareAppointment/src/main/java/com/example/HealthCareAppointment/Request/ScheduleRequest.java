@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class ScheduleRequest {
     
-    private Long id;
+    private Long doctorId;
 
     private LocalTime startTime;
 
