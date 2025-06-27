@@ -17,5 +17,6 @@ public class ScheduleRequest {
 
     private DayOfWeek dayOfWeek;
 
-    private boolean isAvailable; // check xem lịch còn trống không
+    // mặc định là true
+    private boolean isAvailable = true; // check xem lịch còn trống không
 }
