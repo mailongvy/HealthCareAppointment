@@ -34,13 +34,15 @@ public class DoctorService implements IDoctorService {
     }
 
     @Override
-    public List<Doctor> getDoctorBySpecialty(Specialty specialty) {
-        if (!specialtyRepository.existsByName(specialty.getName())) {
+    public List<Doctor> getDoctorBySpecialty(String specialty) {
+        if (!specialtyRepository.existsByName(specialty)) {
             throw new ResourceNotFoundException("Specialty Not found");
         }
 
-        return doctorRepository.findBySpecialtyName(specialty.getName());
+        return doctorRepository.findBySpecialtyName(specialty);
     }
+
+    
 
     @Override
     /*
