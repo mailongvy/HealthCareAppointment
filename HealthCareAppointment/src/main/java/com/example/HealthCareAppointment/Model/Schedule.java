@@ -3,10 +3,13 @@ package com.example.HealthCareAppointment.Model;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +35,8 @@ public class Schedule {
 
     private boolean isAvailable; // check xem lịch còn trống không
 
-    
+    @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name="id", referencedColumnName=)
     private Doctor doctor; // một bác sĩ có thể có nhiều lịch
 
 }
