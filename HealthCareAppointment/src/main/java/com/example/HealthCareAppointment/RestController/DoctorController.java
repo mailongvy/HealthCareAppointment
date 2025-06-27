@@ -64,10 +64,10 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/doctor/specialty")
-    public ResponseEntity<ApiResponse> getDoctorById(@PathVariable Long id) {
+    @GetMapping("/doctor/get/{specialty}")
+    public ResponseEntity<ApiResponse> getDoctorBySpecialty(@PathVariable String specialty) {
         try {
-            Doctor doctor = doctorService.getDoctorById(id);
+            List<Doctor> doctor = doctorService.getDoctorBySpecialty(specialty);
             return ResponseEntity.ok(new ApiResponse("Found", doctor));
         } catch (Exception e) {
             // TODO Auto-generated catch block
