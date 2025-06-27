@@ -4,6 +4,9 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +20,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Schedule {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private LocalTime startTime;
@@ -27,6 +32,7 @@ public class Schedule {
 
     private boolean isAvailable; // check xem lịch còn trống không
 
+    
     private Doctor doctor; // một bác sĩ có thể có nhiều lịch
 
 }
