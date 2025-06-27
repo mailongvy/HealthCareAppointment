@@ -36,7 +36,7 @@ public class Schedule {
     private boolean isAvailable; // check xem lịch còn trống không
 
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="id", referencedColumnName=)
+    @JoinColumn(name="id", referencedColumnName="id")
     private Doctor doctor; // một bác sĩ có thể có nhiều lịch
 
 }
