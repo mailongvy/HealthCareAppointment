@@ -3,7 +3,10 @@ package com.example.HealthCareAppointment.Model;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,16 +30,29 @@ public class Schedule {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(pattern="HH:mm:ss")
     private LocalTime startTime;
 
+    @JsonFormat(pattern="HH:mm:ss")
     private LocalTime endTime;
 
     private DayOfWeek dayOfWeek;
 
+    @Column(nullable = false)
     private boolean isAvailable; // check xem lịch còn trống không
 
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="id", referencedColumnName="id")
     private Doctor doctor; // một bác sĩ có thể có nhiều lịch
+
+    public Schedule(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek, boolean isAvailable, Doctor doctor) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.dayOfWeek = dayOfWeek;
+        this.isAvailable = isAvailable;
+        this.doctor = doctor;
+    }
+
+    
 
 }
