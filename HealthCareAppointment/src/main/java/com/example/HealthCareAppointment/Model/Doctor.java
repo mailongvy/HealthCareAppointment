@@ -1,6 +1,7 @@
 package com.example.HealthCareAppointment.Model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,9 @@ public class Doctor {
     private String phoneNumber;
 
     private LocalDate dateOfBirth;
+
+    @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Schedule> schedules;
 
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="specialty_id", referencedColumnName="id")
