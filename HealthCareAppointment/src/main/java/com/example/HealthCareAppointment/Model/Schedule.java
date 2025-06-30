@@ -44,7 +44,7 @@ public class Schedule {
     // nếu lịch bác sĩ trống sẽ là true
     // bận là false
     
-    private boolean isAvailable = true;
+    private boolean isAvailable = false;
 
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="doctor_id", referencedColumnName="id")

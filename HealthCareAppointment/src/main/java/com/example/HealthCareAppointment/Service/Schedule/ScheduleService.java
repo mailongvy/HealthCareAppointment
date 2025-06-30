@@ -53,7 +53,7 @@ public class ScheduleService implements IScheduleService {
             request.getStartTime(),
             request.getEndTime(),
             request.getDayOfWeek(),
-            false,
+            true,
             doctorService.getDoctorById(request.getDoctorId())
         );
     }
