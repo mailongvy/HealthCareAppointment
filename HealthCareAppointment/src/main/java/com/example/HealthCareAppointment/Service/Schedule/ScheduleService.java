@@ -72,6 +72,19 @@ public class ScheduleService implements IScheduleService {
                                     .orElseThrow(() -> new ResourceNotFoundException("Schedule not found"));
     }
 
+    @Override
+    public void deleteScheduleById(Long id) {
+        // TODO Auto-generated method stub
+        scheduleRepository.findById(id)
+                            .ifPresentOrElse(
+                                scheduleRepository::delete,
+                                () -> { throw new ResourceNotFoundException("Schedule Not Found"); }
+                            );
+        
+    }
+
+    
+
 
     
 
