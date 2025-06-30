@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HealthCareAppointment.Model.Specialty;
 import com.example.HealthCareAppointment.Response.ApiResponse;
-import com.example.HealthCareAppointment.Service.Specialty.SpecialtyService;
+import com.example.HealthCareAppointment.Service.Specialty.ISpecialtyService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("${apiPrefix}/specialties")
 public class SpecialtyController {
-    private final SpecialtyService specialtyService;
+    private final ISpecialtyService specialtyService;
 
     @PostMapping("/specialty/add")
     public ResponseEntity<ApiResponse> addSpecialty(@RequestBody Specialty specialty) {
