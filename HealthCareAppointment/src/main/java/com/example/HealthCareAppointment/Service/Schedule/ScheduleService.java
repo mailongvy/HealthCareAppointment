@@ -12,6 +12,7 @@ import com.example.HealthCareAppointment.Repositories.ScheduleRepository;
 import com.example.HealthCareAppointment.Request.ScheduleRequest;
 import com.example.HealthCareAppointment.Service.Doctor.IDoctorService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -73,6 +74,7 @@ public class ScheduleService implements IScheduleService {
     }
 
     @Override
+    @Transactional
     public void deleteScheduleById(Long id) {
         // TODO Auto-generated method stub
         scheduleRepository.findById(id)
