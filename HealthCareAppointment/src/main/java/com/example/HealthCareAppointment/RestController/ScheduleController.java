@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Schedule;
 import com.example.HealthCareAppointment.Request.ScheduleRequest;
 import com.example.HealthCareAppointment.Response.ApiResponse;
@@ -42,8 +44,18 @@ public class ScheduleController {
     }
 
     // delete schedule
+    public ResponseEntity<ApiResponse> deleteScheduleById(@PathVariable Long id ) {
+        try {
+            scheduleService.deleteScheduleById(id);
+            return ResponseEntity.ok(new ApiResponse("Delete Success", null));
+        } catch (ResourceNotFoundException e) {
+            // TODO Auto-generated catch block
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                    .body(new ApiResponse("Not found", null));
+        }
+    }
 
-    
+
 
 
 }
