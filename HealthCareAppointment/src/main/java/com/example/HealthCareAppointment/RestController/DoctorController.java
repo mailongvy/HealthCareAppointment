@@ -34,7 +34,7 @@ public class DoctorController {
     @PostMapping("/doctor/add")
     public ResponseEntity<ApiResponse> addDoctor(@RequestBody Doctor doctor) {
         try {
-            Doctor created = doctorService.addDoctor(doctor);
+            Doctor created = (Doctor) doctorService.addDoctor(doctor);
             return ResponseEntity.ok(new ApiResponse("Add Doctor success", created));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
