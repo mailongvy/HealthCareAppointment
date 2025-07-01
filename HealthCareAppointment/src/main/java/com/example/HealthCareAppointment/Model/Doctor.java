@@ -19,8 +19,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Doctor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -40,6 +40,10 @@ public class Doctor {
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="specialty_id", referencedColumnName="id")
     private Specialty specialty;
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="doctor")   
+    private List<Appointment> appointment;
+    
 
     public Doctor(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, Specialty specialty) {
         this.fullName = fullName;
