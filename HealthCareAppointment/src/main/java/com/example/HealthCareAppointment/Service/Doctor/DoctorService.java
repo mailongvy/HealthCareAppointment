@@ -24,7 +24,9 @@ public class DoctorService implements IDoctorService {
 
     @Override
     public List<Doctor> getAllDoctors() {
-        return doctorRepository.findAll();
+        return doctorRepository.findAll().stream()
+                .map(obj -> (Doctor) obj)
+                .toList();
     }
 
     @Override
