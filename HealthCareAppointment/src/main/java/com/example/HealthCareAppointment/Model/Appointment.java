@@ -27,11 +27,11 @@ public class Appointment {
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="id", referencedColumnName="doctor_id")
+    @JoinColumn(name="doctor_id", referencedColumnName="id")
     private Doctor doctor;
 
     @ManyToOne(cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="id", referencedColumnName="patient_id")
+    @JoinColumn(name="patient_id", referencedColumnName="id")
     private Patient patient;
 
     // ngày hẹn 
