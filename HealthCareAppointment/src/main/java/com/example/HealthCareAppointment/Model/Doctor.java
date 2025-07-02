@@ -41,7 +41,7 @@ public class Doctor {
     @JoinColumn(name="specialty_id", referencedColumnName="id")
     private Specialty specialty;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="doctor")   
+    @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL)   
     private List<Appointment> appointment;
     
 
