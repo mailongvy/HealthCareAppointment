@@ -1,5 +1,12 @@
 package com.example.HealthCareAppointment.Repositories;
 
-public interface AppointmentRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.HealthCareAppointment.Model.Appointment;
+
+@Repository
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+
 
 }
