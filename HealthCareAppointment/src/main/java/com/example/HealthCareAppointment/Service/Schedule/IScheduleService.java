@@ -1,5 +1,6 @@
 package com.example.HealthCareAppointment.Service.Schedule;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.HealthCareAppointment.Model.Schedule;
@@ -11,5 +12,5 @@ public interface IScheduleService {
     public Schedule getScheduleById(Long id);
     public List<Schedule> getAllSchedule();
     public void deleteScheduleById(Long id);
-
+    public boolean isDoctorAvailable(Long doctorId, LocalDateTime appointmentDateTime);
 }
