@@ -1,5 +1,8 @@
 package com.example.HealthCareAppointment.Service.Schedule;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -84,6 +87,27 @@ public class ScheduleService implements IScheduleService {
                             );
         
     }
+
+    @Override
+    public boolean isDoctorAvailable(Long doctorId, LocalDateTime appointmentDateTime) {
+        DayOfWeek dayOfWeek = appointmentDateTime.getDayOfWeek();
+        LocalTime appointmentTime = appointmentDateTime.toLocalTime();
+
+        List<Schedule> schedules = scheduleRepository.findByDoctorIdAndDayOfWeek(doctorId, dayOfWeek);
+
+        for (Schedule schedule : schedules) {
+            if (schedule.isAvailable() && (appointmentTime.isAfter(schedule.getStartTime())) 
+                && (appointmentTime.isBefore(appointmentTime))
+            ) {
+                return true;
+            }
+        }
+
+        return  false;
+
+    }
+    
+    
 
     
 
