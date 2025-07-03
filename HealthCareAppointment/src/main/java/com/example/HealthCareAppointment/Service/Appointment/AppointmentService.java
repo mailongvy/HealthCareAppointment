@@ -80,12 +80,20 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public Appointment confirmAppointment(Long appointmentId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                                                        .orElseThrow(() -> new ResourceNotFoundException("Appointment Not Found"));
+        
+        appointment.setStatus(AppointmentStatus.CONFIRMED);
+        return appointmentRepository.save(appointment);
     }
 
     @Override
     public Appointment cancelAppointment(Long appointmentId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                                                        .orElseThrow(() -> new ResourceNotFoundException("Appointment Not Found"));
+        
+        appointment.setStatus(AppointmentStatus.CANCELED);
+        return appointmentRepository.save(appointment);
     }
 
 }
