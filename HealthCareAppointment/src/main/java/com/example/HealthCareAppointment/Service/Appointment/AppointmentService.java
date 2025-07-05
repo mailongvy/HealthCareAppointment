@@ -1,5 +1,6 @@
 package com.example.HealthCareAppointment.Service.Appointment;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,8 +46,8 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsByDoctor(Long doctorId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Appointment> getAppointmentsByDoctor(Long doctorId, LocalDate date) {
+        return  null;
     }
 
     @Override
@@ -95,5 +96,7 @@ public class AppointmentService implements IAppointmentService {
         appointment.setStatus(AppointmentStatus.CANCELED);
         return appointmentRepository.save(appointment);
     }
+
+    
 
 }
