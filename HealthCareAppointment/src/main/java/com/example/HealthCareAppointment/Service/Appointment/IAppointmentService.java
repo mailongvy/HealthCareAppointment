@@ -1,5 +1,6 @@
 package com.example.HealthCareAppointment.Service.Appointment;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.HealthCareAppointment.Model.Appointment;
@@ -13,7 +14,7 @@ public interface IAppointmentService {
     public List<Appointment> getAllAppointments();
 
     // get appointment by doctorId 
-    public List<Appointment> getAppointmentsByDoctor(Long doctorId);
+    public List<Appointment> getAppointmentsByDoctor(Long doctorId, LocalDate date);
 
     // get appointment by patientId
     public List<Appointment> getAppointmentsByPatient(Long patientId);
