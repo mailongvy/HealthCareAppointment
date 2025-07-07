@@ -47,12 +47,18 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsByDoctor(Long doctorId, LocalDate date) {
-        return  null;
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
+        return appointmentRepository.findByDoctorIdAndAppointmentDateBetween(doctorId, startOfDay, endOfDay);
+        
     }
 
     @Override
     public List<Appointment> getAppointmentsByPatient(Long patientId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Appointment> appointment = appointmentRepository.findByPatientId(patientId);
+
+        return appointment;
     }
 
     @Override

@@ -11,5 +11,5 @@ import com.example.HealthCareAppointment.Model.Appointment;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     public List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime startTime, LocalDateTime endTime);
-
+    public List<Appointment> findByPatientId(Long patientId);
 }
