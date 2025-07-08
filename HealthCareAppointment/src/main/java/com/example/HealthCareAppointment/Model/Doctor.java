@@ -3,6 +3,8 @@ package com.example.HealthCareAppointment.Model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +44,7 @@ public class Doctor {
     private Specialty specialty;
 
     @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL)   
+    @JsonIgnore
     private List<Appointment> appointment;
     
 
