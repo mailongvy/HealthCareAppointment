@@ -96,8 +96,9 @@ public class ScheduleService implements IScheduleService {
         List<Schedule> schedules = scheduleRepository.findByDoctorIdAndDayOfWeek(doctorId, dayOfWeek);
 
         for (Schedule schedule : schedules) {
-            if (schedule.isAvailable() && (appointmentTime.isAfter(schedule.getStartTime())) 
-                && (appointmentTime.isBefore(appointmentTime))
+            if (schedule.isAvailable()
+                && appointmentTime.isAfter(schedule.getStartTime())
+                && appointmentTime.isBefore(schedule.getEndTime())
             ) {
                 return true;
             }
