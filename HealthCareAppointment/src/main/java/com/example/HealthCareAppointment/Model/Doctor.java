@@ -46,6 +46,9 @@ public class Doctor {
     @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL)   
     @JsonIgnore
     private List<Appointment> appointment;
+
+    @OneToMany(mappedBy="doctor", cascade=CascadeType.ALL)
+    private List<Notification> notifications;
     
 
     public Doctor(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, Specialty specialty) {
