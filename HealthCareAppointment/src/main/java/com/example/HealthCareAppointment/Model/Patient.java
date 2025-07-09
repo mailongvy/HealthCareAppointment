@@ -42,6 +42,9 @@ public class Patient {
     @JsonIgnore
     private List<Appointment> appointments;
 
+    @OneToMany(mappedBy="patient", cascade= CascadeType.ALL)
+    private List<Notification> notifications;
+
     
 
     public Patient(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, String gender, String address) {
