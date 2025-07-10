@@ -8,4 +8,4 @@ import com.example.HealthCareAppointment.Model.Notification;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long>{
 
-}
+}   
