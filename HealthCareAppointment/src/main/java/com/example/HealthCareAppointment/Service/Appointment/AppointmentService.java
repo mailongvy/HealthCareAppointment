@@ -116,7 +116,28 @@ public class AppointmentService implements IAppointmentService {
                                                         .orElseThrow(() -> new ResourceNotFoundException("Appointment Not Found"));
         
         appointment.setStatus(AppointmentStatus.CONFIRMED);
-        return appointmentRepository.save(appointment);
+
+
+        appointment = appointmentRepository.save(appointment);
+
+        // send sms notification
+        // tạo nd sms cần gửi 
+        String smsContent = String.format(
+            "Kính gửi %s,\n\nLịch hẹn của bạn với Bác sĩ %s vào %s đã được tạo và đã được xác nhận.\n\nTrân trọng,\nHệ thống Y tế",
+            appointment.getPatient().getFullName(),
+            appointment.getDoctor().getFullName(),
+            appointment.getAppointmentDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+        );
+
+        // gửi sms
+        notificationService.sendSMSNotification(
+            appointment.getDoctor().getId(),
+            appointment.getPatient().getId(),
+            smsContent
+        );
+
+        return appointment;
     }
 
     @Override
