@@ -2,8 +2,10 @@ package com.example.HealthCareAppointment.Service.Appointment;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.HealthCareAppointment.Enum.AppointmentStatus;
@@ -16,6 +18,7 @@ import com.example.HealthCareAppointment.Repositories.AppointmentRepository;
 import com.example.HealthCareAppointment.Repositories.DoctorRepository;
 import com.example.HealthCareAppointment.Repositories.PatientRepository;
 import com.example.HealthCareAppointment.Request.AppointmentRequest;
+import com.example.HealthCareAppointment.Service.Notification.NotificationService;
 import com.example.HealthCareAppointment.Service.Schedule.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,13 +26,20 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AppointmentService implements IAppointmentService {
+    @Autowired
     private final AppointmentRepository appointmentRepository;
 
+    @Autowired
     private final DoctorRepository doctorRepository;
 
+    @Autowired
     private final PatientRepository patientRepository;
 
+    @Autowired
     private final ScheduleService scheduleService;
+
+    @Autowired
+    private final NotificationService notificationService;
 
 
     
@@ -80,7 +90,22 @@ public class AppointmentService implements IAppointmentService {
         appointment.setStatus(AppointmentStatus.PENDING);
         appointment.setCreateAt(LocalDateTime.now());
 
-        return appointmentRepository.save(appointment);
+        appointment = appointmentRepository.save(appointment);
+
+        // gửi sms cho bệnh nhân 
+        String smsContent = String.format(
+            "Kính gửi %s,\n\nLịch hẹn của bạn với Bác sĩ %s vào %s đã được tạo và đang chờ xác nhận.\n\nTrân trọng,\nHệ thống Y tế",
+            patient.getFullName(),
+            doctor.getFullName(),
+            appointment.getAppointmentDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+        );
+
+        notificationService.sendSMSNotification(doctor.getId(), patient.getId(), smsContent);
+
+        return appointment;
+
+
 
 
     }
