@@ -50,6 +50,7 @@ public class NotificationService implements INotificationService {
         
 
         try {
+            System.out.println("+84".concat(patient.getPhoneNumber().substring(1)));
             Message.creator(
                 // chuyển đổi mã quốc tế thành +84
                 new PhoneNumber("+84".concat(patient.getPhoneNumber().substring(1))),
@@ -61,6 +62,7 @@ public class NotificationService implements INotificationService {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             notification.setStatus(NotificationStatus.FAILED);
+            System.out.println(e.getMessage());
             throw new RuntimeException("Failed to send SMS: " + e.getMessage() );
         }
 
