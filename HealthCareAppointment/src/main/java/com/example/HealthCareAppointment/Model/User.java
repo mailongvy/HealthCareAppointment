@@ -1,11 +1,12 @@
 package com.example.HealthCareAppointment.Model;
 
-import java.util.Collection;
 
 import com.example.HealthCareAppointment.Enum.Role;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,16 +26,33 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-
     private String password;
 
-    private Collection<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    
 
     @OneToOne(cascade=CascadeType.ALL, mappedBy="user")
     private Patient patient;
 
     @OneToOne(cascade=CascadeType.ALL, mappedBy="user")
     private Doctor doctor;
+
+    private String email = (role == Role.DOCTOR) ? doctor.getEmail() : patient.getEmail();
+
+    public User(String email, String password, Role role, Patient patient, Doctor doctor) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.patient = patient;
+        this.doctor = doctor;
+    }
+
+
+
+
+
+    
 
 }
