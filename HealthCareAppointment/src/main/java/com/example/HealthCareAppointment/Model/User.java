@@ -26,12 +26,12 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    private String email;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    
 
     @OneToOne(cascade=CascadeType.ALL, mappedBy="user")
     private Patient patient;
@@ -39,14 +39,10 @@ public class User {
     @OneToOne(cascade=CascadeType.ALL, mappedBy="user")
     private Doctor doctor;
 
-    private String email = (role == Role.DOCTOR) ? doctor.getEmail() : patient.getEmail();
-
-    public User(String email, String password, Role role, Patient patient, Doctor doctor) {
+    public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
-        this.patient = patient;
-        this.doctor = doctor;
     }
 
 
