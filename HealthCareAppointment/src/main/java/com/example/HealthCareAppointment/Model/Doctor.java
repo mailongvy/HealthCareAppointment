@@ -31,7 +31,7 @@ public class Doctor {
 
     private String fullName;
 
-    private String email;
+    // private String email;
 
     private String phoneNumber;
 
@@ -56,13 +56,23 @@ public class Doctor {
     private User user;
     
 
-    public Doctor(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, Specialty specialty) {
+    public Doctor(String fullName, String phoneNumber, LocalDate dateOfBirth, Specialty specialty) {
         this.fullName = fullName;
-        this.email = email;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.specialty = specialty;
     }
+
+
+    public Doctor(String fullName, String phoneNumber, LocalDate dateOfBirth, Specialty specialty, User user) {
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.specialty = specialty;
+        this.user = user;
+    }
+
+    
 
     
 
