@@ -30,8 +30,6 @@ public class Patient {
 
     private String fullName;
 
-    private String email;
-
     private String phoneNumber;
 
     private LocalDate dateOfBirth;
@@ -53,14 +51,27 @@ public class Patient {
 
     
 
-    public Patient(String fullName, String email, String phoneNumber, LocalDate dateOfBirth, String gender, String address) {
+    public Patient(String fullName, String phoneNumber, LocalDate dateOfBirth, String gender, String address) {
         this.address = address;
         this.dateOfBirth = dateOfBirth;
-        this.email = email;
         this.fullName = fullName;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
     }
+
+
+
+    public Patient(String fullName, String phoneNumber, LocalDate dateOfBirth, String gender, String address,
+            User user) {
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.address = address;
+        this.user = user;
+    }
+
+    
 
 
 

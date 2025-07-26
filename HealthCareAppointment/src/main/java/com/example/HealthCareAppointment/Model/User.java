@@ -2,6 +2,7 @@ package com.example.HealthCareAppointment.Model;
 
 
 import com.example.HealthCareAppointment.Enum.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -34,9 +35,11 @@ public class User {
     private Role role;
 
     @OneToOne(cascade=CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
     private Patient patient;
 
     @OneToOne(cascade=CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
     private Doctor doctor;
 
     public User(String email, String password, Role role) {

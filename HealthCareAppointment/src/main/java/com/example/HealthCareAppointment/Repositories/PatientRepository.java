@@ -7,6 +7,9 @@ import com.example.HealthCareAppointment.Model.Patient;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
-    public boolean existsByEmail(String email);
+
+
+    public boolean existsByUserEmail(String email);
+    public Patient findByUserEmail(String email);
 
 }

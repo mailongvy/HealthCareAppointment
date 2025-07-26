@@ -1,6 +1,8 @@
 package com.example.HealthCareAppointment.Service.User;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,7 +54,18 @@ public class UserService implements IUserService{
     @Override
     public User getAuthenticationUser() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthenticationUser'");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository.findByEmail(email);
     }
+
+
+    @Override
+    public List<User> getAllUsers() {
+        // TODO Auto-generated method stub
+        return userRepository.findAll();
+    }
+
+    
 
 }

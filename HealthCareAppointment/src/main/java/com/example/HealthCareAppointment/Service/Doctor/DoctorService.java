@@ -3,14 +3,19 @@ package com.example.HealthCareAppointment.Service.Doctor;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.HealthCareAppointment.Enum.Role;
 import com.example.HealthCareAppointment.Exception.ResourceAlreadyExistException;
 import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Doctor;
 import com.example.HealthCareAppointment.Model.Specialty;
+import com.example.HealthCareAppointment.Model.User;
 import com.example.HealthCareAppointment.Repositories.DoctorRepository;
 import com.example.HealthCareAppointment.Repositories.SpecialtyRepository;
+import com.example.HealthCareAppointment.Repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +23,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class DoctorService implements IDoctorService {
+    @Autowired
     private final DoctorRepository doctorRepository;
+
+    @Autowired
     private final SpecialtyRepository specialtyRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
+
+    
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
@@ -58,7 +72,7 @@ public class DoctorService implements IDoctorService {
         return doctorRepository.findById(id)
                                 .map((existingDoctor) -> {
                                     existingDoctor.setFullName(updateDoctor.getFullName());
-                                    existingDoctor.setEmail(updateDoctor.getEmail());
+                                    // existingDoctor.setEmail(updateDoctor.getEmail());
                                     existingDoctor.setPhoneNumber(updateDoctor.getPhoneNumber());
                                     existingDoctor.setDateOfBirth(updateDoctor.getDateOfBirth());
                                     
@@ -73,27 +87,56 @@ public class DoctorService implements IDoctorService {
     }
 
     @Override
+    @Transactional
     public Doctor addDoctor(Doctor addDoctor) {
-        if(doctorRepository.existsByEmail(addDoctor.getEmail())) {
-            throw new ResourceAlreadyExistException("Doctor already exists");
+        // Kiểm tra email đã tồn tại chưa
+        if(userRepository.existsByEmail(addDoctor.getUser().getEmail())) {
+            throw new ResourceAlreadyExistException("Email already exists");
         }
-        // specialtyRepository.findByName(addDoctor.getSpecialty().getName());
 
+        // Tìm specialty
         Specialty specialty = Optional.ofNullable(specialtyRepository.findByName(addDoctor.getSpecialty().getName()))
                                         .orElseThrow(() -> new ResourceNotFoundException("Specialty not found"));
 
-        addDoctor.setSpecialty(specialty);
+        // Tạo User mới với password đã hash
+        User newUser = new User(
+            addDoctor.getUser().getEmail(),
+            passwordEncoder.encode(addDoctor.getUser().getPassword()), //  Hash password
+            Role.DOCTOR
+        );
+        
+        // Save User trước
+        User savedUser = userRepository.save(newUser);
 
-        return doctorRepository.save(createDoctor(addDoctor, specialty));
+        // Tạo Doctor với User đã save
+        Doctor newDoctor = new Doctor(
+            addDoctor.getFullName(),
+            addDoctor.getPhoneNumber(),
+            addDoctor.getDateOfBirth(),
+            specialty,
+            savedUser
+        );
+
+        // Save Doctor
+        Doctor savedDoctor = doctorRepository.save(newDoctor);
+
+        // Set bidirectional relationship
+        savedUser.setDoctor(savedDoctor);
+        userRepository.save(savedUser);
+
+        return savedDoctor;
     }
 
     public Doctor createDoctor(Doctor addDoctor, Specialty specialty) {
+
+        
         return new Doctor(
             addDoctor.getFullName(),
-            addDoctor.getEmail(),
+            // addDoctor.getEmail(),
             addDoctor.getPhoneNumber(),
             addDoctor.getDateOfBirth(),
-            specialty
+            specialty,
+            addDoctor.getUser()
         );
     }
 

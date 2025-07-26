@@ -2,12 +2,16 @@ package com.example.HealthCareAppointment.Service.Patient;
 
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.HealthCareAppointment.Enum.Role;
 import com.example.HealthCareAppointment.Exception.ResourceAlreadyExistException;
 import com.example.HealthCareAppointment.Exception.ResourceNotFoundException;
 import com.example.HealthCareAppointment.Model.Patient;
+import com.example.HealthCareAppointment.Model.User;
 import com.example.HealthCareAppointment.Repositories.PatientRepository;
+import com.example.HealthCareAppointment.Repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PatientService implements IPatientService {
     private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     // get all patients 
     @Override
@@ -33,25 +39,45 @@ public class PatientService implements IPatientService {
     // add patient 
     @Override
     public Patient addPatient(Patient patient) {
-        
+        if (userRepository.existsByEmail(patient.getUser().getEmail())) {
+            throw new ResourceAlreadyExistException("Patient already exist");
+        }
 
-        Patient addPatient = createPatient(patient);
-        return patientRepository.save(addPatient);
+        User user = new User(
+            patient.getUser().getEmail(), 
+            passwordEncoder.encode(patient.getUser().getPassword()), 
+            Role.PATIENT
+        );
+
+        // save user
+        User savedUser = userRepository.save(user);
+
+
+        Patient addPatient = createPatient(patient, savedUser);
+
+        // save patient
+        Patient savedPatient = patientRepository.save(addPatient);
+
+        //set bidirectional relationship
+        savedUser.setPatient(savedPatient);
+        userRepository.save(savedUser);
+
+        return savedPatient;
     }
 
     // create patient to add
-    public Patient createPatient(Patient addPatient) {
-        if (patientRepository.existsByEmail(addPatient.getEmail())) {
+    public Patient createPatient(Patient addPatient, User user) {
+        if (patientRepository.existsByUserEmail(addPatient.getUser().getEmail())) {
             throw new ResourceAlreadyExistException("Patient already exists");
         }
 
         return new Patient(
             addPatient.getFullName(),
-            addPatient.getEmail(),
             addPatient.getPhoneNumber(),
             addPatient.getDateOfBirth(),
             addPatient.getGender(),
-            addPatient.getAddress()
+            addPatient.getAddress(),
+            user
         );
     }
 
@@ -61,7 +87,7 @@ public class PatientService implements IPatientService {
         return patientRepository.findById(id)
                                 .map(existingPatient -> {
                                     existingPatient.setFullName(requestPatient.getFullName());
-                                    existingPatient.setEmail(requestPatient.getEmail());
+                                    // existingPatient.setEmail(requestPatient.getEmail());
                                     existingPatient.setPhoneNumber(requestPatient.getPhoneNumber());
                                     existingPatient.setDateOfBirth(requestPatient.getDateOfBirth());
                                     existingPatient.setGender(requestPatient.getGender());

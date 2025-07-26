@@ -34,14 +34,18 @@ public class SecurityConfig  {
     // private JwtAuthFilter jwtAuthFilter;
 
     
-
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
                     // .requestMatchers("/api/auth/**", "/api/appointments/oauth2/callback").permitAll()
-                    .requestMatchers("/api/appointments/**").hasRole("PATIENT")
-                    .requestMatchers("/api/doctors/**").hasRole("DOCTOR")
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/appointments/**").permitAll()
+                    .requestMatchers("/api/v1/doctors/**").permitAll()
+                    .requestMatchers("/api/v1/admin/**").permitAll()
+                    .requestMatchers("/api/v1/patients/**").permitAll()
+                    .requestMatchers("/api/v1/specialties/**").permitAll()
+                    .requestMatchers("/api/v1/users/**").permitAll()
+                    .requestMatchers("/api/v1/schedules/**").permitAll()
                     .anyRequest().authenticated()
                     
 
@@ -52,7 +56,7 @@ public class SecurityConfig  {
 
 
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }     
@@ -62,16 +66,24 @@ public class SecurityConfig  {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(myUserDetailsService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+   
 
     @Bean 
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    public Filter jwtAuthFilter() {
+    @Bean
+    public Filter jwtAuthenticationFilter() {
         return new JwtAuthFilter(jwtService, myUserDetailsService);
     }
 
