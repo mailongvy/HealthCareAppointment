@@ -5,13 +5,12 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.example.HealthCareAppointment.Security.User.UserPrincipal;
 
@@ -22,18 +21,15 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
+@Component
 public class JWTService {
-    private final  String jwtSecret;
+    private final String jwtSecret;
     private final int expiration = 3600000;
     
     public JWTService() throws NoSuchAlgorithmException {
         KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
         SecretKey sk = keyGen.generateKey();
-        jwtSecret = Base64.getEncoder().encodeToString(sk.getEncoded());
+        this.jwtSecret = Base64.getEncoder().encodeToString(sk.getEncoded());
     }
 
     // tạo token cho mỗi lần đăng nhập cho patient 
@@ -41,7 +37,7 @@ public class JWTService {
         // token sẽ dựa vào thông tin của user
         
 
-        Map<String, Objects> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>();
 
         // get user information from authentication
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();

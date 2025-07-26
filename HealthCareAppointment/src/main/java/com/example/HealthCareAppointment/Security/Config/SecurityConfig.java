@@ -39,14 +39,14 @@ public class SecurityConfig  {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
                     // .requestMatchers("/api/auth/**", "/api/appointments/oauth2/callback").permitAll()
-                    .requestMatchers("/api/v1/appointments/**").permitAll()
-                    .requestMatchers("/api/v1/doctors/**").permitAll()
-                    .requestMatchers("/api/v1/admin/**").permitAll()
-                    .requestMatchers("/api/v1/patients/**").permitAll()
-                    .requestMatchers("/api/v1/specialties/**").permitAll()
                     .requestMatchers("/api/v1/users/**").permitAll()
-                    .requestMatchers("/api/v1/schedules/**").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/v1/appointments/**").hasAnyRole("DOCTOR", "PATIENT")
+                    .requestMatchers("/api/v1/doctors/**").hasRole("DOCTOR")
+                    .requestMatchers("/api/v1/admin/**").authenticated()
+                    .requestMatchers("/api/v1/patients/**").hasRole("DOCTOR")
+                    .requestMatchers("/api/v1/specialties/**").authenticated()
+                    .requestMatchers("/api/v1/schedules/**").hasRole("DOCTOR")
+                    .anyRequest().permitAll()
                     
 
                 )
